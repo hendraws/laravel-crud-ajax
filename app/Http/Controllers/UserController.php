@@ -37,7 +37,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:191',
+            'email' => 'required|string|email|max:191|unique:users,email'
+        ]);
+
+        $model = User::create($request->all());
+        return $model;
     }
 
     /**
@@ -48,7 +54,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $model = User::findOrFail($id);
+        return view('pages.user.show', compact('model'));
     }
 
     /**
@@ -59,7 +66,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $model = User::findOrFail($id);
+        return view('pages.user.form', compact('model'));
     }
 
     /**
@@ -71,7 +79,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:191',
+            'email' => 'required|string|email|max:191|unique:users,email,' .$id
+        ]);
+
+        $model = User::findOrFail($id);
+        $model->update($request->all());
     }
 
     /**
@@ -81,8 +95,10 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
+    {   
+        $model= User::findOrFail($id);
+        $model->delete();
+        // User::destroy($model);
     }
 
     public function dataTable()
