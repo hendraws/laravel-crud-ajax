@@ -39,11 +39,17 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:191',
-            'email' => 'required|string|email|max:191|unique:users,email'
+            'email' => 'required|string|email|max:191|unique:users,email',
+            'photo' => 'required|image|mimes:jpg,png,jpeg'
         ]);
+        // $model = User::create($request->all());
+        // return $model;
 
-        $model = User::create($request->all());
-        return $model;
+        $input = $request->all();
+        $input['photo'] =  time() . '.' . $request->photo->getClientOriginalExtension();
+        $request->photo->move(public_path('upload/photo'), $input['photo']);
+        User::create($input);
+        return $input;
     }
 
     /**

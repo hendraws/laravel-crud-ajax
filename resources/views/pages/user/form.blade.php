@@ -1,6 +1,7 @@
 {!! Form::model($model, [
     'route' => $model->exists ? ['user.update', $model->id] : 'user.store',
-    'method' => $model->exists ? 'PUT' : 'POST'
+    'method' => $model->exists ? 'PUT' : 'POST',
+    'enctype' => 'multipart/form-data'
 ]) !!}
 
     <div class="form-group">
@@ -13,5 +14,9 @@
         {!! Form::email('email', null, ['class' => 'form-control', 'id' => 'email']) !!}
     </div>
 
+    <div class="form-group">
+        <label for="" class="control-label">Photo</label>
+        {!! Form::file('photo', null, ['class' => 'form-control', 'id' => 'photo']) !!}
+    </div>
 
 {!! Form::close() !!}

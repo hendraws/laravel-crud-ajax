@@ -32,7 +32,10 @@ $('#modal-btn-save').click(function (event) {
         $.ajax({
             url : url,
             method : method,
-            data : form.serialize(),
+            // data : form.serialize(),
+            data: new FormData(form[0]),
+            contentType : false,
+            processData : false,
             success :function(response){
                 form.trigger('reset');
                 $('#modal').modal('hide');
